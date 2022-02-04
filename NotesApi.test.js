@@ -5,11 +5,28 @@ describe('NotesApi class', () => {
   it('calls fetch and loads notes', async () => {
     const api = new NotesApi();
     fetch.mockResponseOnce(JSON.stringify(
-      'This note is coming from the server'
+      'test note from server'
     ));
 
     api.loadNotes((notesInfo) => {
-      expect(notesInfo).toBe('This note is coming from the server');
+      expect(notesInfo).toBe('test note from server');
     });
+    expect(fetch.mock.calls.length).toEqual(1);
   });
+
+    // it('adding a new note', async () => {
+    //   const api = new NotesApi();
+      
+    //   fetch.mockResponseOnce(JSON.stringify(
+    //     {content: 'test note'} // turns into 'test note'
+    //   ));
+
+    //   api.createNote('test note');
+  
+    //   api.loadNotes((notesInfo) => {
+    //     expect(notesInfo).toBe('test note');
+    //   });
+    //   expect(fetch.mock.calls.length).toEqual(2);
+    // });
+
 });

@@ -32,9 +32,10 @@
   var require_NotesView = __commonJS({
     "NotesView.js"(exports, module) {
       var NotesView2 = class {
-        constructor(model2) {
+        constructor(model2, api2) {
           this.model = model2;
           this.maincontainerEl = document.querySelector("#main-container");
+          this.api = api2;
           document.querySelector("#add-note-button").addEventListener("click", () => {
             const newNote = document.querySelector("#note-input").value;
             this.addNewNote(newNote);
@@ -54,7 +55,8 @@
           });
         }
         addNewNote(note) {
-          this.model.addNote(note);
+          console.log(note);
+          this.api.createNote(note);
           this.displayNotes();
         }
       };
@@ -69,6 +71,18 @@
         loadNotes(callback) {
           fetch("http://localhost:3000/notes").then((response) => response.json()).then((data) => {
             callback(data);
+          });
+        }
+        createNote(notetext) {
+          const note = { content: notetext };
+          fetch("http://localhost:3000/notes", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(note)
+          }).then((response) => response.json()).then((data) => {
+            console.log(`data within createNote: ${data}`);
           });
         }
       };
